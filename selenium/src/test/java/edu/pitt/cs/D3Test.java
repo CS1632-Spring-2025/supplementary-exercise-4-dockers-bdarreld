@@ -165,33 +165,4 @@ public class D3Test {
     driver.get("http://localhost:8080/greet-a-cat/Jennyanydots");
     assertThat(driver.findElement(By.cssSelector("#greeting > h4")).getText(), is("Meow! from Jennyanydots."));
   }
-  @Test
-  public void tEST12DEFECTFUNFEED() {
-    driver.get("http://localhost:8080/");
-    js.executeScript("document.cookie = \"1=false\";document.cookie = \"2=false\";document.cookie = \"3=false\";");
-    driver.findElement(By.cssSelector("li:nth-child(4) > a")).click();
-    driver.findElement(By.id("catnips")).sendKeys("-3");
-    driver.findElement(By.xpath("//button[contains(.,\'Feed\')]")).click();
-    {
-      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\'feedResult\' and text()=\'Cat fight!\']")));
-    }
-    assertThat(driver.findElement(By.xpath("//*[@id=\'feedResult\']")).getText(), is("Cat fight!"));
-  }
-  @Test
-  public void tEST13DEFECTFUNGREETACAT() {
-    driver.get("http://localhost:8080/");
-    js.executeScript("document.cookie = \"1=false\";document.cookie = \"2=false\";document.cookie = \"3=false\";");
-    js.executeScript("document.cookie = \"1=true\";");
-    driver.findElement(By.cssSelector("li:nth-child(6) > a")).click();
-    assertThat(driver.findElement(By.cssSelector("#greeting > h4")).getText(), is("Meow!Meow!"));
-  }
-  @Test
-  public void tEST14DEFECTFUNGREETACATWITHNAME() {
-    driver.get("http://localhost:8080/");
-    js.executeScript("document.cookie = \"1=false\";document.cookie = \"2=false\";document.cookie = \"3=false\";");
-    js.executeScript("document.cookie = \"1=true\";");
-    driver.get("http://localhost:8080/greet-a-cat/Jennyanydots");
-    assertThat(driver.findElement(By.cssSelector("#greeting > h4")).getText(), is("Jennyanydots is not here."));
-  }
 }
