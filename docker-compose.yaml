@@ -3,8 +3,9 @@ version: '3'
 services:
   server:
     build:
-      context: '.'
+      context: '.'  # all the files that you will be copying over. '.' denotes the local directory
       dockerfile: Dockerfile
-    container_name: rentacat
+    container_name: rentacat  # the name of the docker image will be 'rentacat'
     ports:
-      - "8080:8080"
+      - "8080:8080"           # port 8080 in that docker image will be mapped to port 8080 in our laptop.
+                              # anything in port 8080 in our laptop will be forwarded to port 8080 in the docker image.
