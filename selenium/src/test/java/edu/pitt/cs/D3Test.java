@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.Dimension;
@@ -35,7 +36,9 @@ public class D3Test {
   JavascriptExecutor js;
   @Before
   public void setUp() {
-    driver = new ChromeDriver();
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--headless");
+    driver = new ChromeDriver(options);
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
   }
@@ -49,7 +52,7 @@ public class D3Test {
     js.executeScript("document.cookie = \"1=false\";document.cookie = \"2=false\";document.cookie = \"3=false\";");
     driver.findElement(By.cssSelector("li:nth-child(8) > a")).click();
     vars.put("url", js.executeScript("return document.URL;"));
-    assertEquals(vars.get("url").toString(), "https://cs1632.appspot.com/reset");
+    assertEquals(vars.get("url").toString(), "http://localhost:8080/reset");
   }
   @Test
   public void tEST2RESET() {
@@ -71,7 +74,7 @@ public class D3Test {
       String attribute = element.getAttribute("src");
       vars.put("img", attribute);
     }
-    assertEquals(vars.get("img").toString(), "https://cs1632.appspot.com/images/cat2.jpg");
+    assertEquals(vars.get("img").toString(), "http://localhost:8080/images/cat2.jpg");
   }
   @Test
   public void tEST4LISTING() {
@@ -159,7 +162,7 @@ public class D3Test {
   public void tEST11GREETACATWITHNAME() {
     driver.get("http://localhost:8080/");
     js.executeScript("document.cookie = \"1=false\";document.cookie =\"2=false\";document.cookie =\"3=false\"");
-    driver.get("https://cs1632.appspot.com/greet-a-cat/Jennyanydots");
+    driver.get("http://localhost:8080/greet-a-cat/Jennyanydots");
     assertThat(driver.findElement(By.cssSelector("#greeting > h4")).getText(), is("Meow! from Jennyanydots."));
   }
   @Test
@@ -188,7 +191,7 @@ public class D3Test {
     driver.get("http://localhost:8080/");
     js.executeScript("document.cookie = \"1=false\";document.cookie = \"2=false\";document.cookie = \"3=false\";");
     js.executeScript("document.cookie = \"1=true\";");
-    driver.get("https://cs1632.appspot.com/greet-a-cat/Jennyanydots");
+    driver.get("http://localhost:8080/greet-a-cat/Jennyanydots");
     assertThat(driver.findElement(By.cssSelector("#greeting > h4")).getText(), is("Jennyanydots is not here."));
   }
 }
